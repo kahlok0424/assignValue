@@ -1,0 +1,12 @@
+#ifndef _ERROR_H
+#define _ERROR_H
+
+typedef enum{
+  NO_ERROR,
+  ERR_NOT_A_NUMBER,
+  ERR_VARIABLE_NOT_FOUND,
+  ERR_MALFORM_TEXT_FOUND,
+  ERR_MALFORM_ASSIGN_FOUND,
+}ErrorCode;
+
+#endif // _TEXTPARSER_H
