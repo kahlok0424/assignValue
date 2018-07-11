@@ -1,6 +1,10 @@
 #include "unity.h"
 #include "textparser.h"
 #include "Error.h"
+#include "CExceptionConfig.h"
+#include "Exception.h"
+#include "CException.h"
+#include <stdio.h>
 
 void setUp(void){}
 void tearDown(void){}
@@ -37,7 +41,7 @@ void test_TextParser_given_orange_120_apple_1_lemon_10_should_assigned_correctly
 void test_TextParser_given_guava_23_cucumber_92_should_throw_ERR_VARIABLE_NOT_FOUND(void)
 {
   CEXCEPTION_T e;
-  int orange = 0, apple = 0, lemon = 0;
+  int guava = 0;
   VariableMapping varTableMapping[] = {
     {"guava",&guava},
     {NULL,NULL},
@@ -58,7 +62,7 @@ void test_TextParser_given_guava_23_cucumber_92_should_throw_ERR_VARIABLE_NOT_FO
 void test_TextParser_given_malform_pineapple__without_equal_sign_should_throw_ERR_MALFORM_ASSIGN_FOUND(void)
 {
   CEXCEPTION_T e;
-  int orange = 0, apple = 0, lemon = 0;
+  int pineapple = 0;
   VariableMapping varTableMapping[] = {
     {"pineapple",&pineapple},
     {NULL,NULL},
@@ -79,7 +83,7 @@ void test_TextParser_given_malform_pineapple__without_equal_sign_should_throw_ER
 void test_TextParser_given_malform_ciku_without_number_should_throw_ERR_MALFORM_ASSIGN_FOUND(void)
 {
   CEXCEPTION_T e;
-  int orange = 0, apple = 0, lemon = 0;
+  int ciku = 0;
   VariableMapping varTableMapping[] = {
     {"ciku",&ciku},
     {NULL,NULL},

@@ -2,10 +2,11 @@
 #define _TEXTPARSER_H
 
 typedef struct VariableMapping VariableMapping;
+
 struct VariableMapping{
   char *name;
   int *storage;
-}
+};
 
 /**
 * Parse and compare the string. It ignored all the spaces.  ('^')/
