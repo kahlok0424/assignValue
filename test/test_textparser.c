@@ -23,10 +23,28 @@ void test_removeFrontSpaces_given_no_space_before_string_expect_same_string_to_b
   TEST_ASSERT_EQUAL_STRING("no space in front.",removeFrontSpaces(line));
 }
 
-void test_findSpaceAndRemoveSpace_given_I_am_an_apple_expect_string_without_space(void){
+/*void xtest_findSpaceAndRemoveSpace_given_I_am_an_apple_expect_string_without_space(void){
   char *line = "I am an apple";
 
   TEST_ASSERT_EQUAL_STRING("Iamanapple",findSpaceAndRemoveSpace(line));
+}*/
+
+void test_Ai_StringCompare_Given_I_am_Good_and_i_am_good_expect_1(void)
+{
+    TEST_ASSERT_EQUAL(1 ,stringCompare("I am Good","i am good"));
+}
+
+void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_TRUE(void){
+  CEXCEPTION_T e;
+  char *line = "    assign apple = 2 ";
+
+  Try {
+    TEST_ASSERT_TRUE(parseAndCompare(&line,"assign" ));
+    TEST_FAIL_MESSAGE("Expect ERR_TABLE_IS_MISSING. But no exception thrown.");
+  } Catch(e) {
+    printf(e->errorMsg);
+    freeError(e);
+  }
 }
 
 /*void test_parseTextAndAssignValues_given_no_table_mapping_should_throw_ERR_TABLE_IS_MISSING(void) {
