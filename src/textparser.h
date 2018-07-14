@@ -27,6 +27,7 @@ int parseTextAndAssignValues();
 
 int getStringLength(char *str);
 char *removeFrontSpaces(char *str1);
+char *extractStringFromSpace(char *str);
 //char *findSpaceAndRemoveSpace(char *line);
 
 #endif // _TEXTPARSER_H

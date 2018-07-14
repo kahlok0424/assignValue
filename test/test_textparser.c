@@ -34,17 +34,36 @@ void test_Ai_StringCompare_Given_I_am_Good_and_i_am_good_expect_1(void)
     TEST_ASSERT_EQUAL(1 ,stringCompare("I am Good","i am good"));
 }
 
-void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_TRUE(void){
+void test_parseAndCompare_given_assign_space_Pineapple_equal_7_expect_TRUE(void){
   CEXCEPTION_T e;
-  char *line = "    assign apple = 2 ";
+  char *line = "assign Pineapple = 7 ";
 
   Try {
     TEST_ASSERT_TRUE(parseAndCompare(&line,"assign" ));
-    TEST_FAIL_MESSAGE("Expect ERR_TABLE_IS_MISSING. But no exception thrown.");
+    //TEST_FAIL_MESSAGE("Expect ERR_TABLE_IS_MISSING. But no exception thrown.");
   } Catch(e) {
     printf(e->errorMsg);
     freeError(e);
   }
+}
+
+void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_TRUE(void){
+  CEXCEPTION_T e;
+  char *line = "     assign apple = 2 ";
+
+  Try {
+    TEST_ASSERT_TRUE(parseAndCompare(&line,"assign" ));
+    //TEST_FAIL_MESSAGE("Expect ERR_TABLE_IS_MISSING. But no exception thrown.");
+  } Catch(e) {
+    printf(e->errorMsg);
+    freeError(e);
+  }
+}
+
+void test_extractStringFromSpace_given_spaces_before_string_expect_removed_string_to_be_returned(void){
+  char *line = "     spaces in front.";
+
+  TEST_ASSERT_EQUAL_STRING("spaces",extractStringFromSpace(line));
 }
 
 /*void test_parseTextAndAssignValues_given_no_table_mapping_should_throw_ERR_TABLE_IS_MISSING(void) {

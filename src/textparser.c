@@ -1,5 +1,9 @@
 #include "textparser.h"
 #include "string.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 int getStringLength(char *str){
   int i = 0;
@@ -65,6 +69,19 @@ char *removeFrontSpaces(char *str1)
     return str2;
 }
 
+char *extractStringFromSpace(char *str){
+  char *temp;
+  char *result;
+  int i = 0;
+  temp = removeFrontSpaces(str);
+  while( temp[i] != ' '){
+    result = temp;
+    ++i;
+  }
+  printf("result :%s",result );
+  return result;
+}
+
 /*char *findSpaceAndRemoveSpace(char *str){
   // To keep track of non-space character count
   int count = 0;
@@ -90,19 +107,18 @@ int parseAndCompare(char **linePtr, char *cmpStr)
 {
   char *newline;
   newline = removeFrontSpaces(*linePtr);
-  printf("test : %s",newline);
+  printf("test :%s",newline);
 
-  /*for(int i = 0; i < lengthOfStr1; i++ )
-  {
-    if(str1[i] != str2[i]){
+  int lenOfCmpStr = getStringLength(cmpStr);
+  for(int i = 0 ; i < lenOfCmpStr ; i++){
+    if(newline[i] != cmpStr[i]){
       return 0;
     }
     else{
     }
   }
-}
-return 1;*/
-return 0;
+
+  return 1;
 }
 
 /**
