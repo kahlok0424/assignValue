@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <stdarg.h>
-#include <ctype.h>
 #include "unity.h"
 #include "Error.h"
 #include "textparser.h"
@@ -35,35 +34,64 @@ void test_Ai_StringCompare_Given_I_am_Good_and_i_am_good_expect_1(void)
 }
 
 void test_parseAndCompare_given_assign_space_Pineapple_equal_7_expect_TRUE(void){
-  CEXCEPTION_T e;
+
   char *line = "assign Pineapple = 7 ";
 
-  Try {
     TEST_ASSERT_TRUE(parseAndCompare(&line,"assign" ));
-    //TEST_FAIL_MESSAGE("Expect ERR_TABLE_IS_MISSING. But no exception thrown.");
-  } Catch(e) {
-    printf(e->errorMsg);
-    freeError(e);
-  }
 }
 
-void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_TRUE(void){
-  CEXCEPTION_T e;
+void test_parseAndCompare_given_spaces_assign_apple_compare_assign_with_Frontspaces_expect_TRUE(void){
+
   char *line = "     assign apple = 2 ";
 
-  Try {
     TEST_ASSERT_TRUE(parseAndCompare(&line,"assign" ));
-    //TEST_FAIL_MESSAGE("Expect ERR_TABLE_IS_MISSING. But no exception thrown.");
-  } Catch(e) {
-    printf(e->errorMsg);
-    freeError(e);
-  }
+}
+
+void test_parseAndCompare_given_assign_space_melon_equal_88_compare_assign_with_spaces_expect_TRUE(void){
+
+  char *line = "assign melon = 88 ";
+    TEST_ASSERT_TRUE(parseAndCompare(&line,"assign   " ));
+}
+
+void test_parseAndCompare_given_assign_orange_equal_17_compare_spaces_assign_expect_TRUE(void){
+
+  char *line = "assign orange = 17 ";
+
+    TEST_ASSERT_TRUE(parseAndCompare(&line,"    assign" ));
+}
+
+void test_parseAndCompare_given_assign_space_Pineapple_equal_7_compare_assign_expect_FALSE(void){
+
+  char *line = "assig Pineapple = 7 ";
+
+    TEST_ASSERT_FALSE(parseAndCompare(&line,"assign" ));
+
+}
+
+void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_FALSE(void){
+
+  char *line = "     ass apple = 2 ";
+
+    TEST_ASSERT_FALSE(parseAndCompare(&line,"assign" ));
 }
 
 void test_extractStringFromSpace_given_spaces_before_string_expect_removed_string_to_be_returned(void){
   char *line = "     spaces in front.";
 
   TEST_ASSERT_EQUAL_STRING("spaces",extractStringFromSpace(line));
+}
+
+void test_parseAndConvertToNum_given_144_expect_144(void) {
+  CEXCEPTION_T e;
+  char *line = "144";
+
+  Try {
+    int i = parseAndConvertToNum(&line);
+    TEST_ASSERT_EQUAL(144 ,i);
+  } Catch(e){
+    printf(e->errorMsg);
+    freeError(e);
+  }
 }
 
 /*void test_parseTextAndAssignValues_given_no_table_mapping_should_throw_ERR_TABLE_IS_MISSING(void) {

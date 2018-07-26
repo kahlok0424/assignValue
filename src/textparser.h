@@ -8,6 +8,12 @@ struct VariableMapping{
   int *storage;
 };
 
+int stringCompare(char *str1, char *str2);
+int getStringLength(char *str);
+char *convertToLowerCase(char *str);
+int getStringLengthTilSpace(char *str);
+int verifyNumStringOnly(char **linePtr);
+
 /**
 * Parse and compare the string. It ignored all the spaces.  ('^')/
 * If the strings are equal, it returns non-zero,
@@ -25,7 +31,7 @@ int parseAndCompare(char **linePtr, char *cmpStr); // macam string compare
 int parseAndConvertToNum(char **linePtr);
 int parseTextAndAssignValues();
 
-int getStringLength(char *str);
+
 char *removeFrontSpaces(char *str1);
 char *extractStringFromSpace(char *str);
 //char *findSpaceAndRemoveSpace(char *line);

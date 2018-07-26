@@ -1,5 +1,6 @@
 #include "textparser.h"
-#include "string.h"
+#include "Exception.h"
+#include "CException.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +14,20 @@ int getStringLength(char *str){
   }
   else{
   while( *(str + i) != '\0'){
+    i++;
+  }
+  return i;
+  }
+}
+
+int getStringLengthTilSpace(char *str){
+  int i = 0;
+
+  if( str == NULL){
+	  return 0;
+  }
+  else{
+  while( *(str + i) != '\0' && *(str + i) != ' ' ){
     i++;
   }
   return i;
@@ -106,18 +121,52 @@ char *extractStringFromSpace(char *str){
 int parseAndCompare(char **linePtr, char *cmpStr)
 {
   char *newline;
-  newline = removeFrontSpaces(*linePtr);
-  printf("test :%s",newline);
+  char *tempCmpStr;
 
-  int lenOfCmpStr = getStringLength(cmpStr);
+  tempCmpStr = removeFrontSpaces(cmpStr);
+  newline = removeFrontSpaces(*linePtr);
+  //printf("test :%s",newline);
+
+  if( (*tempCmpStr) == '=' && (**linePtr) == '='){
+    return 1;
+  }
+
+  int lenOfCmpStr = getStringLengthTilSpace(tempCmpStr);
   for(int i = 0 ; i < lenOfCmpStr ; i++){
-    if(newline[i] != cmpStr[i]){
+    if(newline[i] != tempCmpStr[i]){
       return 0;
     }
     else{
     }
   }
 
+  /*while( (*newline) != '/0' )
+  {
+  }*/
+
+  return 1;
+}
+
+int verifyNumStringOnly (char **linePtr){
+
+  int step = 0;
+  char *temp;
+  //char *errvarname;
+
+  temp = removeFrontSpaces((*linePtr));
+
+  while ((*temp) != ' ' && (*temp) != '\0') {   //Checks linePtr until ' ' or '\0'
+      if (isdigit((*temp)) == 0) {
+        //(*linePtr) -= step;
+        //errvarname = extractVariable(linePtr);
+        throwError(1,"ERROR %d:  is not a number!",1); //Throw not a number error when element is not a digit
+      }
+      else {
+        temp++;
+        //step ++;
+      }
+  }
+  (*linePtr) -= step;   //Revert back and return 1 when it is done
   return 1;
 }
 
@@ -130,7 +179,28 @@ int parseAndCompare(char **linePtr, char *cmpStr)
 **/
 int parseAndConvertToNum(char **linePtr)
 {
-  return 0; //(for temp use only)
+  int result = 0;
+
+  char *temp;
+  temp = removeFrontSpaces(*linePtr);
+
+  if(verifyNumStringOnly (&temp)) {   //Check string only contains number
+    while((*temp) != ' ' && (*temp) != '\0') {    //Convert string into int
+      result += ((*temp) - 48);
+      result *= 10;
+      (temp)++;
+    }
+
+    while((*temp) == ' ') {   //Remove trailing spaces
+      temp++;
+    }
+
+    result /= 10;
+    return result;
+    }
+
+  else
+    return 0;
 }
 
 int parseTextAndAssignValues()
