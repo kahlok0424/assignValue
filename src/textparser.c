@@ -34,48 +34,6 @@ int getStringLengthTilSpace(char *str){
   }
 }
 
-char *convertToLowerCase(char *str)
-{
-
-  int i = 0;
-  char *buffer;
-  buffer = (char*)malloc(strlen(str)+1);
-  strcpy(buffer,str);
-  //convert the word to lowercase 1 by 1
-  while(buffer[i] != '\0')
-  {
-   buffer[i] = tolower(buffer[i]);
-    ++i;
-  }
-    return buffer;
-}
-
-int stringCompare(char *str1, char *str2){
-  int lengthOfStr1 = 0;
-  int lengthOfStr2 = 0;
-  int i = 0;
-
-  lengthOfStr1 = getStringLength(str1);
-  lengthOfStr2 = getStringLength(str2);
-
-  str1 = convertToLowerCase(str1);
-  str2 = convertToLowerCase(str2);
-
-  if(lengthOfStr1 != lengthOfStr2){
-    return 0;
-  }
-  else{
-    while(str1[i] != ' ')
-    {
-      if(str1[i] != str2[i]){
-        return 0;
-      }
-      else{ i++; }
-    }
-  }
-  return 1;
-}
-
 char *removeFrontSpaces(char *str1)
 {
     char *str2;
@@ -151,15 +109,15 @@ int verifyNumStringOnly (char **linePtr){
 
   int step = 0;
   char *temp;
-  //char *errvarname;
+  char *errorName;
 
   temp = removeFrontSpaces((*linePtr));
 
   while ((*temp) != ' ' && (*temp) != '\0') {   //Checks linePtr until ' ' or '\0'
       if (isdigit((*temp)) == 0) {
-        //(*linePtr) -= step;
-        //errvarname = extractVariable(linePtr);
-        throwError(1,"ERROR %d:  is not a number!",1); //Throw not a number error when element is not a digit
+        (*linePtr) -= step;
+        errorName = extractVariable(linePtr);
+        throwError(1,"ERROR %d: %s is not a number!",1, errorName); //Throw not a number error when element is not a digit
       }
       else {
         temp++;
@@ -203,7 +161,96 @@ int parseAndConvertToNum(char **linePtr)
     return 0;
 }
 
-int parseTextAndAssignValues()
+char *extractVariable(char **linePtr) {
+
+  int length = 0, i = 0;
+  char *result;
+
+  while ((**linePtr) == ' ') {
+    (*linePtr)++;
+  }
+
+  length = getVariableLength(linePtr);
+  result = malloc (length);
+
+  while (i < length) {
+    result[i] = (**linePtr);
+    (*linePtr)++;
+    i++;
+  }
+
+  result[i] = '\0'; //End string
+
+  return result;
+}
+
+int getVariableLength (char **linePtr) {
+
+  	int counter = 0;
+
+    if((**linePtr) == '=') {
+      counter =+ 1;
+    }
+    else {
+	    while ((**linePtr) != ' ' && (**linePtr) != '=') {
+        if((**linePtr) == '\0') {
+          (*linePtr) -= counter;
+      		return counter;
+        }
+        else
+			    counter++;
+          (*linePtr)++;
+			}
+    (*linePtr) -= counter;  //Return original linePtr address
+    }
+
+		return counter;
+	}
+
+int parseTextAndAssignValues(char **linePtr, VariableMapping varTableMapping[])
 {
+  int i = 0;
+char *errvarname;
+
+if(*linePtr == NULL) {   //Return 1 if the command is NULL
+  return 1;
+}
+
+if(varTableMapping == NULL) {   //Throw table error when there is no table given
+  throwError(5,"ERROR %d: Table is NULL!",5);
+}
+
+if(varTableMapping[i].name == 0) {   //Throw table error when there is no table given
+  throwError(6,"ERROR %d: Table is empty!",6);
+}
+
+else {
+  if(parseAndCompare(linePtr, "assign")) {    //Check if linePtr contains "assign"
+    while((**linePtr) != '\0') {
+      if(varTableMapping[i].name == NULL) {          //Throw unknown variable error if
+        errvarname = extractVariable(linePtr);      //found unmatched var
+        throwError(2,"ERROR %d: '%s' is not a valid variable.",2,(errvarname));
+      }
+      else {
+        if(parseAndCompare(linePtr, varTableMapping[i].name)) {   //Checks for every var name in table
+          if(parseAndCompare(linePtr,"=")) {    //Checks for the presence of '=' sign
+            *varTableMapping[i].storage = parseAndConvertToNum(linePtr);    //Convert string num and return back
+            i = 0;    //Reset back when found its corresponding var         //int and store to its storage
+          }
+          else {
+            errvarname = extractVariable(linePtr);   //If no "=" is found, throw malform error
+            throwError(4,"ERROR %d: Expected '=', but %s is encountered.",4,(errvarname));
+          }
+        }
+        else
+          i++;  //Increase index when the var is not matched from table
+      }
+    }
+  }
+  else{
+    errvarname = extractVariable(linePtr);  //If no "assign" word is found, throw unknown command
+    throwError(3,"ERROR %d: Expected 'assign', but %s is encounted from the beginning.",3, (errvarname));
+  }
+}
 
 }

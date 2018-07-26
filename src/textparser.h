@@ -14,6 +14,9 @@ char *convertToLowerCase(char *str);
 int getStringLengthTilSpace(char *str);
 int verifyNumStringOnly(char **linePtr);
 
+int getVariableLength (char **linePtr) ;
+char *extractVariable(char **linePtr);
+
 /**
 * Parse and compare the string. It ignored all the spaces.  ('^')/
 * If the strings are equal, it returns non-zero,
@@ -29,7 +32,7 @@ int parseAndCompare(char **linePtr, char *cmpStr); // macam string compare
 * is thrown.
 **/
 int parseAndConvertToNum(char **linePtr);
-int parseTextAndAssignValues();
+int parseTextAndAssignValues(char **linePtr, VariableMapping varTableMapping[]);
 
 
 char *removeFrontSpaces(char *str1);
