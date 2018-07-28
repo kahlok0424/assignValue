@@ -36,7 +36,7 @@ int parseTextAndAssignValues(char **linePtr, VariableMapping varTableMapping[]);
 
 
 char *removeFrontSpaces(char *str1);
-char *removeFrontSpacesWithdPtr(char *str1 , char **line);
+void removeFrontSpacesWithdPtr(char **str1);
 char *extractStringFromSpace(char *str);
 
 #endif // _TEXTPARSER_H

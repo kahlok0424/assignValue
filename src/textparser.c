@@ -42,18 +42,18 @@ char *removeFrontSpaces(char *str1)
     return str2;
 }
 
-char *removeFrontSpacesWithdPtr(char *str1 , char **line)
+void removeFrontSpacesWithdPtr(char **str1)
 {
-    char *str2;
-    str2=str1;
-    while (*str2==' '){
-      str2++;
-      (*line)++;
+    //char *str2;
+    //str2=str1;
+    while ((**str1) ==' '){
+      *str1++;
+      //(*line)++;
     }
-    return str2;
+    //return str1;
 }
 
-char *extractStringFromSpace(char *str){
+/*char *extractStringFromSpace(char *str){
   char *temp;
   char *result;
   int i = 0;
@@ -71,7 +71,7 @@ char *extractStringFromSpace(char *str){
 * If the strings are equal, it returns non-zero,
 * otherwise zero value.
 **/
-int parseAndCompare(char **linePtr, char *cmpStr)
+/*int parseAndCompare(char **linePtr, char *cmpStr)
 {
   char *newline;
   char *tempCmpStr;
@@ -94,9 +94,9 @@ int parseAndCompare(char **linePtr, char *cmpStr)
     }
   }
 
-  while( (*newline) == ' ' )
+  while( (**linePtr) == ' ' )
   {
-    newline++;
+    //newline++;
     (*linePtr)++;
   }
 
@@ -125,7 +125,7 @@ int verifyNumStringOnly (char **linePtr){
           step ++;
         }
     }
-    (*linePtr) -= step;   //Revert back and return 1 when it is done
+    (*linePtr) -= step;
     return 1;
 }
 
@@ -136,7 +136,7 @@ int verifyNumStringOnly (char **linePtr){
 * converted. If there is no number, ERR_NOT_A_NUMBER          (cannot return 0 cuz '0' also is number)
 * is thrown.
 **/
-int parseAndConvertToNum(char **linePtr)
+/*int parseAndConvertToNum(char **linePtr)
 {
   int result = 0;
 
@@ -256,4 +256,4 @@ else {
   }
 }
 
-}
+}*/

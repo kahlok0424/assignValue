@@ -22,14 +22,14 @@ void test_removeFrontSpaces_given_no_space_before_string_expect_same_string_to_b
   TEST_ASSERT_EQUAL_STRING("no space in front.",removeFrontSpaces(line));
 }
 
-void test_removeFrontSpaceswithdPtr_given_spaces_before_string_expect_removed_string_to_be_returned(void){
-  char *line = "     spaces in front.";
+void test_removeFrontSpaceswithdPtr_spaces_before_string_expect_removed_string_to_be_returned(void){
+  char **line = "     spaces in front.";
   char *line2 = " testing";
-
-  TEST_ASSERT_EQUAL_STRING("spaces in front.",removeFrontSpacesWithdPtr(line,&line2));
+  removeFrontSpacesWithdPtr(&line);
+  TEST_ASSERT_EQUAL_STRING("spaces in front.", line);
 }
 
-void test_parseAndCompare_given_assign_space_Pineapple_equal_7_expect_TRUE(void){
+/*void test_parseAndCompare_given_assign_space_Pineapple_equal_7_expect_TRUE(void){
 
   char *line = "assign Pineapple = 7 ";
 
@@ -69,7 +69,7 @@ void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_FALSE(vo
   char *line = "     ass apple = 2 ";
 
     TEST_ASSERT_FALSE(parseAndCompare(&line,"assign" ));
-}
+}*/
 
 /*void test_extractStringFromSpace_given_spaces_before_string_expect_removed_string_to_be_returned(void){
   char *line = "     spaces in front.";
@@ -77,7 +77,7 @@ void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_FALSE(vo
   TEST_ASSERT_EQUAL_STRING("spaces",extractStringFromSpace(line));
 }*/
 
-void test_parseAndConvertToNum_given_144_expect_144(void) {
+/*void test_parseAndConvertToNum_given_144_expect_144(void) {
   CEXCEPTION_T e;
   char *line = "144";
 
@@ -101,7 +101,7 @@ void test_parseTextAndAssignValues_given_no_table_mapping_should_throw_ERR_TABLE
     printf(e->errorMsg);
     freeError(e);
   }
-}
+}*/
 
 /*void test_parseTextAndAssignValues_given_no_command_should_do_nothing(void) {
   CEXCEPTION_T e;
