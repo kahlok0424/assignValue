@@ -55,22 +55,6 @@ char *extractStringFromSpace(char *str){
   return result;
 }
 
-/*char *findSpaceAndRemoveSpace(char *str){
-  // To keep track of non-space character count
-  int count = 0;
-  char *str2 ;
-  int len = getStringLength(str);
-  str2 = str;
-  // Traverse the given string. If current character
-  // is not space, then place it at index 'count++'
-  for (int i = 0; str2[i]; i++){
-      if (str2[i] != ' ')
-          str2[count++] = str2[i]; // here count is incremented
-     }
-  //str2[count] = '\0';
-  return str2;
-}*/
-
 /**
 * Parse and compare the string. It ignored all the spaces.  ('^')/
 * If the strings are equal, it returns non-zero,
@@ -212,11 +196,11 @@ int parseTextAndAssignValues(char **linePtr, VariableMapping varTableMapping[])
   int i = 0;
 char *errvarname;
 
-if(*linePtr == NULL) {   //Return 1 if the command is NULL
+if(*linePtr == NULL) {
   return 1;
 }
 
-if(varTableMapping == NULL) {   //Throw table error when there is no table given
+if(varTableMapping == NULL) {
   throwError(5,"ERROR %d: Table is NULL!",5);
 }
 
@@ -225,10 +209,10 @@ if(varTableMapping[i].name == 0) {   //Throw table error when there is no table 
 }
 
 else {
-  if(parseAndCompare(linePtr, "assign")) {    //Check if linePtr contains "assign"
+  if(parseAndCompare(linePtr, "assign")) {
     while((**linePtr) != '\0') {
-      if(varTableMapping[i].name == NULL) {          //Throw unknown variable error if
-        errvarname = extractVariable(linePtr);      //found unmatched var
+      if(varTableMapping[i].name == NULL) {
+        errvarname = extractVariable(linePtr);
         throwError(2,"ERROR %d: '%s' is not a valid variable.",2,(errvarname));
       }
       else {

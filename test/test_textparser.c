@@ -22,17 +22,6 @@ void test_removeFrontSpaces_given_no_space_before_string_expect_same_string_to_b
   TEST_ASSERT_EQUAL_STRING("no space in front.",removeFrontSpaces(line));
 }
 
-/*void xtest_findSpaceAndRemoveSpace_given_I_am_an_apple_expect_string_without_space(void){
-  char *line = "I am an apple";
-
-  TEST_ASSERT_EQUAL_STRING("Iamanapple",findSpaceAndRemoveSpace(line));
-}*/
-
-/*void test_Ai_StringCompare_Given_I_am_Good_and_i_am_good_expect_1(void)
-{
-    TEST_ASSERT_EQUAL(1 ,stringCompare("I am Good","i am good"));
-}*/
-
 void test_parseAndCompare_given_assign_space_Pineapple_equal_7_expect_TRUE(void){
 
   char *line = "assign Pineapple = 7 ";
@@ -75,11 +64,11 @@ void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_FALSE(vo
     TEST_ASSERT_FALSE(parseAndCompare(&line,"assign" ));
 }
 
-void test_extractStringFromSpace_given_spaces_before_string_expect_removed_string_to_be_returned(void){
+/*void test_extractStringFromSpace_given_spaces_before_string_expect_removed_string_to_be_returned(void){
   char *line = "     spaces in front.";
 
   TEST_ASSERT_EQUAL_STRING("spaces",extractStringFromSpace(line));
-}
+}*/
 
 void test_parseAndConvertToNum_given_144_expect_144(void) {
   CEXCEPTION_T e;
@@ -144,7 +133,7 @@ void test_parseTextAndAssignValues_given_input_command_is_NULL_should_do_nothing
 }*/
 
 // assign orange  = 21346 apple = 1 lemon=10
-void test_parseTextAndAssignValues_given_orange_21346_apple_1_lemon_10_should_assigned_correctly(void) {
+/*void test_parseTextAndAssignValues_given_orange_21346_apple_1_lemon_10_should_assigned_correctly(void) {
   CEXCEPTION_T e;
   int orange = 0, apple = 0, lemon = 0;
   VariableMapping varTableMapping[] = {
@@ -165,7 +154,7 @@ void test_parseTextAndAssignValues_given_orange_21346_apple_1_lemon_10_should_as
     printf(e->errorMsg);
     freeError(e);
   }
-}
+}*/
 
 /*void test_parseTextAndAssignValues_given_melon_and_value_with_trailing_spaces_should_parse_properly(void) {
   CEXCEPTION_T e;
