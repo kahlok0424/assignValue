@@ -42,6 +42,17 @@ char *removeFrontSpaces(char *str1)
     return str2;
 }
 
+char *removeFrontSpacesWithdPtr(char *str1 , char **line)
+{
+    char *str2;
+    str2=str1;
+    while (*str2==' '){
+      str2++;
+      (*line)++;
+    }
+    return str2;
+}
+
 char *extractStringFromSpace(char *str){
   char *temp;
   char *result;
@@ -66,7 +77,7 @@ int parseAndCompare(char **linePtr, char *cmpStr)
   char *tempCmpStr;
 
   tempCmpStr = removeFrontSpaces(cmpStr);
-  newline = removeFrontSpaces(*linePtr);
+  newline = removeFrontSpacesWithdPtr(*linePtr , linePtr);
   //printf("test :%s",newline);
 
   if( (*tempCmpStr) == '=' && (**linePtr) == '='){
@@ -79,37 +90,43 @@ int parseAndCompare(char **linePtr, char *cmpStr)
       return 0;
     }
     else{
+      (*linePtr)++;
     }
   }
 
-  /*while( (*newline) != '/0' )
+  while( (*newline) == ' ' )
   {
-  }*/
+    newline++;
+    (*linePtr)++;
+  }
 
   return 1;
 }
 
 int verifyNumStringOnly (char **linePtr){
 
-  int step = 0;
-  char *temp;
-  char *errorName;
 
-  temp = removeFrontSpaces((*linePtr));
+    int step = 0;
+    char *errvarname;
 
-  while ((*temp) != ' ' && (*temp) != '\0') {   //Checks linePtr until ' ' or '\0'
-      if (isdigit((*temp)) == 0) {
-        (*linePtr) -= step;
-        errorName = extractVariable(linePtr);
-        throwError(1,"ERROR %d: %s is not a number!",1, errorName); //Throw not a number error when element is not a digit
-      }
-      else {
-        temp++;
-        //step ++;
-      }
-  }
-  (*linePtr) -= step;   //Revert back and return 1 when it is done
-  return 1;
+    while ((**linePtr) == ' ') {
+      (*linePtr)++;
+      step++;
+    }
+
+    while ((**linePtr) != ' ' && (**linePtr) != '\0') {
+        if (isdigit((**linePtr)) == 0) {
+          (*linePtr) -= step;
+          errvarname = extractVariable(linePtr);
+          throwError(1,"ERROR %d: '%s' is not a number!",1,(errvarname));
+        }
+        else {
+          (*linePtr)++;
+          step ++;
+        }
+    }
+    (*linePtr) -= step;   //Revert back and return 1 when it is done
+    return 1;
 }
 
 /**
@@ -124,17 +141,19 @@ int parseAndConvertToNum(char **linePtr)
   int result = 0;
 
   char *temp;
-  temp = removeFrontSpaces(*linePtr);
+  temp = removeFrontSpacesWithdPtr(*linePtr , linePtr);
 
-  if(verifyNumStringOnly (&temp)) {   //Check string only contains number
-    while((*temp) != ' ' && (*temp) != '\0') {    //Convert string into int
+  if(verifyNumStringOnly (&temp)) {
+    while((*temp) != ' ' && (*temp) != '\0') {
       result += ((*temp) - 48);
       result *= 10;
       (temp)++;
+      (*linePtr)++;
     }
 
-    while((*temp) == ' ') {   //Remove trailing spaces
+    while((*temp) == ' ') {
       temp++;
+      (*linePtr)++;
     }
 
     result /= 10;
@@ -163,7 +182,7 @@ char *extractVariable(char **linePtr) {
     i++;
   }
 
-  result[i] = '\0'; //End string
+  result[i] = '\0';
 
   return result;
 }
@@ -216,10 +235,10 @@ else {
         throwError(2,"ERROR %d: '%s' is not a valid variable.",2,(errvarname));
       }
       else {
-        if(parseAndCompare(linePtr, varTableMapping[i].name)) {   //Checks for every var name in table
-          if(parseAndCompare(linePtr,"=")) {    //Checks for the presence of '=' sign
-            *varTableMapping[i].storage = parseAndConvertToNum(linePtr);    //Convert string num and return back
-            i = 0;    //Reset back when found its corresponding var         //int and store to its storage
+        if(parseAndCompare(linePtr, varTableMapping[i].name)) {
+          if(parseAndCompare(linePtr,"=")) {
+            *varTableMapping[i].storage = parseAndConvertToNum(linePtr);
+            i = 0;
           }
           else {
             errvarname = extractVariable(linePtr);   //If no "=" is found, throw malform error
@@ -227,12 +246,12 @@ else {
           }
         }
         else
-          i++;  //Increase index when the var is not matched from table
+          i++;
       }
     }
   }
   else{
-    errvarname = extractVariable(linePtr);  //If no "assign" word is found, throw unknown command
+    errvarname = extractVariable(linePtr);
     throwError(3,"ERROR %d: Expected 'assign', but %s is encounted from the beginning.",3, (errvarname));
   }
 }

@@ -22,6 +22,13 @@ void test_removeFrontSpaces_given_no_space_before_string_expect_same_string_to_b
   TEST_ASSERT_EQUAL_STRING("no space in front.",removeFrontSpaces(line));
 }
 
+void test_removeFrontSpaceswithdPtr_given_spaces_before_string_expect_removed_string_to_be_returned(void){
+  char *line = "     spaces in front.";
+  char *line2 = " testing";
+
+  TEST_ASSERT_EQUAL_STRING("spaces in front.",removeFrontSpacesWithdPtr(line,&line2));
+}
+
 void test_parseAndCompare_given_assign_space_Pineapple_equal_7_expect_TRUE(void){
 
   char *line = "assign Pineapple = 7 ";
