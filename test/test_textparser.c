@@ -22,14 +22,14 @@ void test_removeFrontSpaces_given_no_space_before_string_expect_same_string_to_b
   TEST_ASSERT_EQUAL_STRING("no space in front.",removeFrontSpaces(line));
 }
 
-void test_removeFrontSpaceswithdPtr_spaces_before_string_expect_removed_string_to_be_returned(void){
+/*void test_removeFrontSpaceswithdPtr_spaces_before_string_expect_removed_string_to_be_returned(void){
   char **line = "     spaces in front.";
   char *line2 = " testing";
   removeFrontSpacesWithdPtr(&line);
   TEST_ASSERT_EQUAL_STRING("spaces in front.", line);
-}
+}*/
 
-/*void test_parseAndCompare_given_assign_space_Pineapple_equal_7_expect_TRUE(void){
+void test_parseAndCompare_given_assign_space_Pineapple_equal_7_expect_TRUE(void){
 
   char *line = "assign Pineapple = 7 ";
 
@@ -69,7 +69,7 @@ void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_FALSE(vo
   char *line = "     ass apple = 2 ";
 
     TEST_ASSERT_FALSE(parseAndCompare(&line,"assign" ));
-}*/
+}
 
 /*void test_extractStringFromSpace_given_spaces_before_string_expect_removed_string_to_be_returned(void){
   char *line = "     spaces in front.";
@@ -77,7 +77,7 @@ void test_parseAndCompare_given_space_assign_space_apple_equal_2_expect_FALSE(vo
   TEST_ASSERT_EQUAL_STRING("spaces",extractStringFromSpace(line));
 }*/
 
-/*void test_parseAndConvertToNum_given_144_expect_144(void) {
+void test_parseAndConvertToNum_given_144_expect_144(void) {
   CEXCEPTION_T e;
   char *line = "144";
 
@@ -101,9 +101,9 @@ void test_parseTextAndAssignValues_given_no_table_mapping_should_throw_ERR_TABLE
     printf(e->errorMsg);
     freeError(e);
   }
-}*/
+}
 
-/*void test_parseTextAndAssignValues_given_no_command_should_do_nothing(void) {
+void test_parseTextAndAssignValues_given_no_command_should_do_nothing(void) {
   CEXCEPTION_T e;
   int tomato = 0;
   VariableMapping varTableMapping[] = {
@@ -113,7 +113,7 @@ void test_parseTextAndAssignValues_given_no_table_mapping_should_throw_ERR_TABLE
   char *line = NULL;
 
   Try {
-    parseTextAndAssignValues(line, varTableMapping);
+    parseTextAndAssignValues(&line, varTableMapping);
     // Should reach here because no command given
   } Catch(e) {
     printf(e->errorMsg);
@@ -131,16 +131,16 @@ void test_parseTextAndAssignValues_given_input_command_is_NULL_should_do_nothing
   char *line = "  ";
 
   Try {
-    parseTextAndAssignValues(line, varTableMapping);
+    parseTextAndAssignValues(&line, varTableMapping);
     // Should reach here because no command given
   } Catch(e) {
     printf(e->errorMsg);
     freeError(e);
   }
-}*/
+}
 
 // assign orange  = 21346 apple = 1 lemon=10
-/*void test_parseTextAndAssignValues_given_orange_21346_apple_1_lemon_10_should_assigned_correctly(void) {
+void test_parseTextAndAssignValues_given_orange_21346_apple_1_lemon_10_should_assigned_correctly(void) {
   CEXCEPTION_T e;
   int orange = 0, apple = 0, lemon = 0;
   VariableMapping varTableMapping[] = {
@@ -152,7 +152,7 @@ void test_parseTextAndAssignValues_given_input_command_is_NULL_should_do_nothing
   char *line = "assign orange  = 21346 apple = 1 lemon=10";
 
   Try {
-    parseTextAndAssignValues(line, varTableMapping);
+    parseTextAndAssignValues(&line, varTableMapping);
 
     TEST_ASSERT_EQUAL(21346, orange);
     TEST_ASSERT_EQUAL(1, apple);
@@ -161,9 +161,9 @@ void test_parseTextAndAssignValues_given_input_command_is_NULL_should_do_nothing
     printf(e->errorMsg);
     freeError(e);
   }
-}*/
+}
 
-/*void test_parseTextAndAssignValues_given_melon_and_value_with_trailing_spaces_should_parse_properly(void) {
+void test_parseTextAndAssignValues_given_melon_and_value_with_trailing_spaces_should_parse_properly(void) {
   CEXCEPTION_T e;
   int melon = 0;
   VariableMapping varTableMapping[] = {
@@ -173,7 +173,7 @@ void test_parseTextAndAssignValues_given_input_command_is_NULL_should_do_nothing
   char *line = "assign melon = 89   ";
 
   Try {
-    parseTextAndAssignValues(line, varTableMapping);
+    parseTextAndAssignValues(&line, varTableMapping);
     TEST_ASSERT_EQUAL(89, melon);
   } Catch(e) {
     printf(e->errorMsg);
@@ -191,7 +191,7 @@ void test_parseTextAndAssignValues_given_text_without_assign_should_throw_ERR_UN
   char *line = "   papaya = 345 ";
 
   Try {
-    parseTextAndAssignValues(line, varTableMapping);
+    parseTextAndAssignValues(&line, varTableMapping);
     TEST_FAIL_MESSAGE("Expect ERR_UNKNOWN_COMMAND. But no exception thrown.");
   } Catch(e) {
     printf(e->errorMsg);
@@ -200,20 +200,20 @@ void test_parseTextAndAssignValues_given_text_without_assign_should_throw_ERR_UN
   }
 }
 
-void test_parseTextAndAssignValues_given_guava_23_cucumber_92_should_throw_ERR_UNKNOWN_VARIABLE(void) {
+void test_parseTextAndAssignValues_given_apple_23_cucumber_92_should_throw_ERR_UNKNOWN_VARIABLE(void) {
   CEXCEPTION_T e;
   int guava = 0;
   VariableMapping varTableMapping[] = {
     {"guava", &guava},
     {NULL, NULL},
   };
-  char *line = "assign guava=23 cucumber=92";
+  char *line = "assign apple=23 cucumber=92";
 
   Try {
-    parseTextAndAssignValues(line, varTableMapping);
+    parseTextAndAssignValues(&line, varTableMapping);
     TEST_FAIL_MESSAGE("Expect ERR_UNKNOWN_VARIABLE. But no exception thrown.");
   } Catch(e) {
-    TEST_ASSERT_EQUAL(23, guava);
+    TEST_ASSERT_EQUAL(0, guava);
     printf(e->errorMsg);
     TEST_ASSERT_EQUAL(ERR_UNKNOWN_VARIABLE, e->errorCode);
     freeError(e);
@@ -230,7 +230,7 @@ void test_parseTextAndAssignValues_given_malform_pineapple_without_equal_sign_sh
   char *line = "assign pineapple 23 ";
 
   Try {
-    parseTextAndAssignValues(line, varTableMapping);
+    parseTextAndAssignValues(&line, varTableMapping);
     TEST_FAIL_MESSAGE("Expect ERR_MALFORM_ASSIGN. But no exception thrown.");
   } Catch(e) {
     printf(e->errorMsg);
@@ -249,7 +249,7 @@ void test_parseTextAndAssignValues_given_malform_ciku_without_number_should_thro
   char *line = "assign ciku =  durian = 6";
 
   Try {
-    parseTextAndAssignValues(line, varTableMapping);
+    parseTextAndAssignValues(&line, varTableMapping);
     TEST_FAIL_MESSAGE("Expect ERR_NOT_A_NUMBER. But no exception thrown.");
   } Catch(e) {
     printf(e->errorMsg);
@@ -257,4 +257,3 @@ void test_parseTextAndAssignValues_given_malform_ciku_without_number_should_thro
     freeError(e);
   }
 }
-*/

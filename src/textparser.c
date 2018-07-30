@@ -53,7 +53,7 @@ void removeFrontSpacesWithdPtr(char **str1)
     //return str1;
 }
 
-/*char *extractStringFromSpace(char *str){
+char *extractStringFromSpace(char *str){
   char *temp;
   char *result;
   int i = 0;
@@ -71,14 +71,18 @@ void removeFrontSpacesWithdPtr(char **str1)
 * If the strings are equal, it returns non-zero,
 * otherwise zero value.
 **/
-/*int parseAndCompare(char **linePtr, char *cmpStr)
+int parseAndCompare(char **linePtr, char *cmpStr)
 {
   char *newline;
   char *tempCmpStr;
 
   tempCmpStr = removeFrontSpaces(cmpStr);
-  newline = removeFrontSpacesWithdPtr(*linePtr , linePtr);
+  newline = removeFrontSpaces(*linePtr);
   //printf("test :%s",newline);
+
+  while ((**linePtr) == ' ') {
+   (*linePtr)++;
+  }
 
   if( (*tempCmpStr) == '=' && (**linePtr) == '='){
     return 1;
@@ -96,7 +100,6 @@ void removeFrontSpacesWithdPtr(char **str1)
 
   while( (**linePtr) == ' ' )
   {
-    //newline++;
     (*linePtr)++;
   }
 
@@ -136,23 +139,27 @@ int verifyNumStringOnly (char **linePtr){
 * converted. If there is no number, ERR_NOT_A_NUMBER          (cannot return 0 cuz '0' also is number)
 * is thrown.
 **/
-/*int parseAndConvertToNum(char **linePtr)
+int parseAndConvertToNum(char **linePtr)
 {
   int result = 0;
 
-  char *temp;
-  temp = removeFrontSpacesWithdPtr(*linePtr , linePtr);
+  //char *temp;
+  //removeFrontSpacesWithdPtr(*linePtr);
 
-  if(verifyNumStringOnly (&temp)) {
-    while((*temp) != ' ' && (*temp) != '\0') {
-      result += ((*temp) - 48);
+  while ((**linePtr) == ' ') {
+   (*linePtr)++;
+  }
+
+  if(verifyNumStringOnly (linePtr)) {
+    while((**linePtr) != ' ' && (**linePtr) != '\0') {
+      result += ((**linePtr) - 48);
       result *= 10;
-      (temp)++;
+      //(temp)++;
       (*linePtr)++;
     }
 
-    while((*temp) == ' ') {
-      temp++;
+    while((**linePtr) == ' ') {
+      //temp++;
       (*linePtr)++;
     }
 
@@ -256,4 +263,4 @@ else {
   }
 }
 
-}*/
+}
