@@ -196,31 +196,31 @@ char *extractVariable(char **linePtr) {
 
 int getVariableLength (char **linePtr) {
 
-  	int counter = 0;
+  	int count = 0;
 
     if((**linePtr) == '=') {
-      counter =+ 1;
+      count =+ 1;
     }
     else {
 	    while ((**linePtr) != ' ' && (**linePtr) != '=') {
         if((**linePtr) == '\0') {
-          (*linePtr) -= counter;
-      		return counter;
+          (*linePtr) -= count;
+      		return count;
         }
         else
-			    counter++;
+			    count++;
           (*linePtr)++;
 			}
-    (*linePtr) -= counter;  //Return original linePtr address
+    (*linePtr) -= count;
     }
 
-		return counter;
+		return count;
 	}
 
 int parseTextAndAssignValues(char **linePtr, VariableMapping varTableMapping[])
 {
   int i = 0;
-char *errvarname;
+char *error;
 
 if(*linePtr == NULL) {
   return 1;
@@ -230,7 +230,7 @@ if(varTableMapping == NULL) {
   throwError(5,"ERROR %d: Table is NULL!",5);
 }
 
-if(varTableMapping[i].name == 0) {   //Throw table error when there is no table given
+if(varTableMapping[i].name == 0) {
   throwError(6,"ERROR %d: Table is empty!",6);
 }
 
@@ -238,8 +238,8 @@ else {
   if(parseAndCompare(linePtr, "assign")) {
     while((**linePtr) != '\0') {
       if(varTableMapping[i].name == NULL) {
-        errvarname = extractVariable(linePtr);
-        throwError(2,"ERROR %d: '%s' is not a valid variable.",2,(errvarname));
+        error = extractVariable(linePtr);
+        throwError(2,"ERROR %d: '%s' is not a valid variable.",2,(error));
       }
       else {
         if(parseAndCompare(linePtr, varTableMapping[i].name)) {
@@ -248,8 +248,8 @@ else {
             i = 0;
           }
           else {
-            errvarname = extractVariable(linePtr);   //If no "=" is found, throw malform error
-            throwError(4,"ERROR %d: Expected '=', but %s is encountered.",4,(errvarname));
+            error = extractVariable(linePtr);
+            throwError(4,"ERROR %d: Expected '=', but %s is encountered.",4,(error));
           }
         }
         else
@@ -258,8 +258,8 @@ else {
     }
   }
   else{
-    errvarname = extractVariable(linePtr);
-    throwError(3,"ERROR %d: Expected 'assign', but %s is encounted from the beginning.",3, (errvarname));
+    error = extractVariable(linePtr);
+    throwError(3,"ERROR %d: Expected 'assign', but %s is encounted from the beginning.",3, (error));
   }
 }
 

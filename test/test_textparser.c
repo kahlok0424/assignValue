@@ -90,6 +90,20 @@ void test_parseAndConvertToNum_given_144_expect_144(void) {
   }
 }
 
+void test_parseAndConvertToNum_given_abc144_expect_error(void) {
+  CEXCEPTION_T e;
+  char *line = "abc144";
+
+  Try {
+    int i = parseAndConvertToNum(&line);
+    TEST_FAIL_MESSAGE("Expect ERR_VARIABLE_IS_MISSING. But no exception thrown.");
+    //TEST_ASSERT_EQUAL(144 ,i);
+  } Catch(e){
+    printf(e->errorMsg);
+    freeError(e);
+  }
+}
+
 void test_parseTextAndAssignValues_given_no_table_mapping_should_throw_ERR_TABLE_IS_MISSING(void) {
   CEXCEPTION_T e;
   char *line = " assign mango = 589 ";
